@@ -259,7 +259,7 @@ public enum NVActivityIndicatorType: Int {
     
     static let allTypes = (blank.rawValue ... audioEqualizer.rawValue).map{ NVActivityIndicatorType(rawValue: $0)! }
     
-    func animation() -> NVActivityIndicatorAnimationDelegate {
+    public func animation() -> NVActivityIndicatorAnimationDelegate {
         switch self {
         case .blank:
             return NVActivityIndicatorAnimationBlank()
@@ -329,16 +329,20 @@ public enum NVActivityIndicatorType: Int {
     }
 }
 
+extension NVActivityIndicatorType: NVActivityIndicatorTypeProtocol {}
+
+public protocol NVActivityIndicatorTypeProtocol {
+    func animation() -> NVActivityIndicatorAnimationDelegate
+}
+
+
 /// Activity indicator view with nice animations
 public final class NVActivityIndicatorView: UIView {
     /// Default type. Default value is .BallSpinFadeLoader.
-    public static var DEFAULT_TYPE: NVActivityIndicatorType = .ballSpinFadeLoader
+    public static var DEFAULT_TYPE: NVActivityIndicatorTypeProtocol = NVActivityIndicatorType.ballSpinFadeLoader
     
-    /// Default color of activity indicator. Default value is UIColor.white.
+    /// Default color. Default value is UIColor.whiteColor().
     public static var DEFAULT_COLOR = UIColor.white
-    
-    /// Default color of text. Default value is UIColor.white.
-    public static var DEFAULT_TEXT_COLOR = UIColor.white
     
     /// Default padding. Default value is 0.
     public static var DEFAULT_PADDING: CGFloat = 0
@@ -362,7 +366,7 @@ public final class NVActivityIndicatorView: UIView {
     public static var DEFAULT_BLOCKER_BACKGROUND_COLOR = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     
     /// Animation type.
-    public var type: NVActivityIndicatorType = NVActivityIndicatorView.DEFAULT_TYPE
+    public var type: NVActivityIndicatorTypeProtocol = NVActivityIndicatorView.DEFAULT_TYPE
     
     @available(*, unavailable, message: "This property is reserved for Interface Builder. Use 'type' instead.")
     @IBInspectable var typeName: String {
@@ -413,7 +417,7 @@ public final class NVActivityIndicatorView: UIView {
      
      - returns: The activity indicator view.
      */
-    public init(frame: CGRect, type: NVActivityIndicatorType? = nil, color: UIColor? = nil, padding: CGFloat? = nil) {
+    public init(frame: CGRect, type: NVActivityIndicatorTypeProtocol? = nil, color: UIColor? = nil, padding: CGFloat? = nil) {
         self.type = type ?? NVActivityIndicatorView.DEFAULT_TYPE
         self.color = color ?? NVActivityIndicatorView.DEFAULT_COLOR
         self.padding = padding ?? NVActivityIndicatorView.DEFAULT_PADDING

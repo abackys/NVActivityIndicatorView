@@ -54,13 +54,12 @@ public extension NVActivityIndicatorViewable where Self: UIViewController {
         _ size: CGSize? = nil,
         message: String? = nil,
         messageFont: UIFont? = nil,
-        type: NVActivityIndicatorType? = nil,
+        type: NVActivityIndicatorTypeProtocol? = nil,
         color: UIColor? = nil,
         padding: CGFloat? = nil,
         displayTimeThreshold: Int? = nil,
         minimumDisplayTime: Int? = nil,
-        backgroundColor: UIColor? = nil,
-        textColor: UIColor? = nil) {
+        backgroundColor: UIColor? = nil) {
         let activityData = ActivityData(size: size,
                                         message: message,
                                         messageFont: messageFont,
@@ -69,8 +68,7 @@ public extension NVActivityIndicatorViewable where Self: UIViewController {
                                         padding: padding,
                                         displayTimeThreshold: displayTimeThreshold,
                                         minimumDisplayTime: minimumDisplayTime,
-                                        backgroundColor: backgroundColor,
-                                        textColor: textColor)
+                                        backgroundColor: backgroundColor)
         
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData)
     }
